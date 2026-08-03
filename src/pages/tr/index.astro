@@ -1,10 +1,10 @@
 ---
-import BlogIndex from '../../components/BlogIndex.astro';
+import Home from '../../components/Home.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog-en'))
+const posts = (await getCollection('blog-tr'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BlogIndex lang="en" posts={posts} />
+<Home lang="tr" posts={posts} />

@@ -1,31 +1,48 @@
 ---
 import '../styles/global.css';
+import { getDict, type Lang } from '../i18n';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 
 interface Props {
   title: string;
   description?: string;
+  lang?: Lang;
 }
 
-const {
-  title,
-  description = 'Security notes, write-ups and my bug bounty journey.',
-} = Astro.props;
-
+const { title, description, lang = 'en' } = Astro.props;
+const dict = getDict(lang);
 const siteTitle = 'ethersec';
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const pathname = Astro.url.pathname;
+const isTr = pathname.startsWith('/tr');
+const enPath = isTr ? (pathname.replace(/^\/tr/, '') || '/') : pathname;
+const trPath = isTr ? pathname : pathname === '/' ? '/tr/' : '/tr' + pathname;
+const enURL = new URL(enPath, Astro.site);
+const trURL = new URL(trPath, Astro.site);
+
+const base = lang === 'tr' ? '/tr' : '';
+const nav = [
+  { href: `${base}/blog`, label: dict.nav.posts },
+  { href: `${base}/tags`, label: dict.nav.tags },
+  { href: `${base}/about`, label: dict.nav.about },
+];
 ---
 
 <!doctype html>
-<html lang="tr">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
+    <meta name="description" content={description ?? dict.meta.defaultDescription} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={description ?? dict.meta.defaultDescription} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
+    <link rel="alternate" hreflang="en" href={enURL} />
+    <link rel="alternate" hreflang="tr" href={trURL} />
+    <link rel="alternate" hreflang="x-default" href={enURL} />
     <meta name="theme-color" content="#0a0a0b" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
@@ -34,12 +51,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <body>
     <header class="site-header">
       <div class="container">
-        <a class="site-title" href="/"><span class="prompt">~$</span> ethersec</a>
+        <a class="site-title" href={base === '' ? '/' : '/tr/'}><span class="prompt">~$</span> ethersec</a>
         <nav class="nav">
-          <a href="/blog">yazılar</a>
-          <a href="/tags">etiketler</a>
-          <a href="/about">hakkımda</a>
+          {
+            nav.map((n) => (
+              <a href={n.href}>{n.label}</a>
+            ))
+          }
         </nav>
+        <LanguageSwitcher lang={lang} />
       </div>
     </header>
 
@@ -53,9 +73,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           <a href="https://github.com/EnesBayraker" target="_blank" rel="noopener">GitHub</a>
           <a href="https://www.linkedin.com/in/enes-bayraker-08489b295/" target="_blank" rel="noopener">LinkedIn</a>
           <a href="https://medium.com/@bayrakerenes" target="_blank" rel="noopener">Medium</a>
-          <a href="/rss.xml">RSS</a>
+          <a href={`${base}/rss.xml`}>RSS</a>
         </div>
-        <p>© {new Date().getFullYear()} Enes Bayraker · ethersec</p>
+        <p>© {new Date().getFullYear()} {dict.footer.copyright}</p>
       </div>
     </footer>
   </body>

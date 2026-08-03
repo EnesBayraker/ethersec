@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getDict, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const dict = getDict(lang);
+---
+
+<BaseLayout lang={lang} title={dict.about.title} description={dict.about.description}>
+  <div class="container about">
+    <h2 class="section-title">{dict.about.title}</h2>
+    <p>{dict.about.p1}</p>
+    <p>{dict.about.p2}</p>
+    <p>{dict.about.contact}</p>
+    <ul>
+      <li><a href="https://github.com/EnesBayraker" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/enes-bayraker-08489b295/" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://medium.com/@bayrakerenes" target="_blank" rel="noopener">Medium</a></li>
+    </ul>
+  </div>
+</BaseLayout>

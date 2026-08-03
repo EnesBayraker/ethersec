@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getDict, type Lang } from '../i18n';
+import PostList from './PostList.astro';
+import type { CollectionEntry } from 'astro:content';
+
+type Post = CollectionEntry<'blog-en'> | CollectionEntry<'blog-tr'>;
+
+interface Props {
+  lang: Lang;
+  posts: Post[];
+}
+
+const { lang, posts } = Astro.props;
+const dict = getDict(lang);
+const base = lang === 'tr' ? '/tr/blog' : '/blog';
+---
+
+<BaseLayout lang={lang} title={dict.blog.title} description={dict.blog.description}>
+  <div class="container">
+    <h2 class="section-title">{dict.blog.all}</h2>
+    <PostList lang={lang} posts={posts} base={base} />
+  </div>
+</BaseLayout>

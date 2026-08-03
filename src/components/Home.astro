@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getDict, type Lang } from '../i18n';
+import PostList from './PostList.astro';
+import type { CollectionEntry } from 'astro:content';
+
+type Post = CollectionEntry<'blog-en'> | CollectionEntry<'blog-tr'>;
+
+interface Props {
+  lang: Lang;
+  posts: Post[];
+}
+
+const { lang, posts } = Astro.props;
+const dict = getDict(lang);
+const base = lang === 'tr' ? '/tr/blog' : '/blog';
+const latest = posts.slice(0, 3);
+const rest = posts.slice(3);
+---
+
+<BaseLayout lang={lang} title="ethersec">
+  <section class="hero container">
+    <p class="hello">{dict.hero.hello}</p>
+    <h1>Enes Bayraker</h1>
+    <p class="handle">@ethersec</p>
+    <p class="bio">{dict.hero.bio}</p>
+  </section>
+
+  <div class="container">
+    <h2 class="section-title">{dict.sections.latest}</h2>
+    <PostList lang={lang} posts={latest} base={base} />
+
+    {
+      rest.length > 0 && (
+        <>
+          <h2 class="section-title">{dict.sections.archive}</h2>
+          <PostList lang={lang} posts={rest} base={base} />
+        </>
+      )
+    }
+
+    <p><a href={base}>{dict.home.allPosts}</a></p>
+  </div>
+</BaseLayout>

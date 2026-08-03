@@ -1,9 +1,9 @@
 ---
-import TagsByTag from '../../components/TagsByTag.astro';
+import TagsByTag from '../../../components/TagsByTag.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog-en');
+  const posts = await getCollection('blog-tr');
   const tags = new Set<string>();
   for (const post of posts) {
     for (const tag of post.data.tags) {
@@ -15,9 +15,9 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.params;
 
-const posts = (await getCollection('blog-en'))
+const posts = (await getCollection('blog-tr'))
   .filter((post) => !post.data.draft && post.data.tags.includes(tag!))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<TagsByTag lang="en" tag={tag!} posts={posts} />
+<TagsByTag lang="tr" tag={tag!} posts={posts} />

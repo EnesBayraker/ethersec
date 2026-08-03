@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { render, type CollectionEntry } from 'astro:content';
+import { getDict, type Lang } from '../i18n';
+import { formatDate } from '../utils/formatDate';
+
+type Post = CollectionEntry<'blog-en'> | CollectionEntry<'blog-tr'>;
+
+interface Props {
+  lang: Lang;
+  post: Post;
+}
+
+const { lang, post } = Astro.props;
+const dict = getDict(lang);
+const { Content } = await render(post);
+const { title, description, pubDate, tags, cover } = post.data;
+const base = lang === 'tr' ? '/tr/blog' : '/blog';
+const tagBase = lang === 'tr' ? '/tr/tags' : '/tags';
+const otherBase = lang === 'tr' ? '/blog' : '/tr/blog';
+---
+
+<BaseLayout lang={lang} title={title} description={description}>
+  <div class="container">
+    <p class="back-link"><a href={base}>{dict.blog.back}</a></p>
+    <article>
+      {cover && <img class="post-cover" src={cover} alt="" />}
+      <h1>{title}</h1>
+      <p class="post-meta">
+        {formatDate(pubDate, lang)}
+        {
+          tags.length > 0 && (
+            <span>
+              {' '}· <span class="tags-inline">{tags.map((t) => `#${t}`).join(' ')}</span>
+            </span>
+          )
+        }
+      </p>
+      <p class="other-lang"><a href={`${otherBase}/${post.id}/`}>{dict.blog.otherLang}</a></p>
+      <div class="prose">
+        <Content />
+      </div>
+      {
+        tags.length > 0 && (
+          <div class="post-tags">
+            {tags.map((tag) => (
+              <a href={`${tagBase}/${tag}/`}>#{tag}</a>
+            ))}
+          </div>
+        )
+      }
+    </article>
+  </div>
+</BaseLayout>

@@ -1,11 +1,11 @@
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { getCollection } from 'astro:content';
-import { getDict } from '../i18n';
+import { getDict } from '../../i18n';
 
 export async function GET(context: APIContext) {
-  const dict = getDict('en');
-  const posts = (await getCollection('blog-en'))
+  const dict = getDict('tr');
+  const posts = (await getCollection('blog-tr'))
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
@@ -17,9 +17,9 @@ export async function GET(context: APIContext) {
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.pubDate,
-      link: `/blog/${post.id}/`,
+      link: `/tr/blog/${post.id}/`,
       categories: post.data.tags,
     })),
-    customData: '<language>en-us</language>',
+    customData: '<language>tr-tr</language>',
   });
 }

@@ -1,9 +1,9 @@
 ---
-import PostPage from '../../components/PostPage.astro';
+import PostPage from '../../../components/PostPage.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog-en');
+  const posts = await getCollection('blog-tr');
   return posts
     .filter((post) => !post.data.draft)
     .map((post) => ({
@@ -15,4 +15,4 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 ---
 
-<PostPage lang="en" post={post} />
+<PostPage lang="tr" post={post} />

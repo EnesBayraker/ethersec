@@ -88,6 +88,22 @@ a:hover {
   text-decoration: none;
 }
 
+.lang-switch {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
+  margin-left: 0.5rem;
+}
+
+.lang-switch:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
 /* Footer */
 .site-footer {
   border-top: 1px solid var(--border);
@@ -202,6 +218,21 @@ article h1 {
   font-size: 0.85rem;
   color: var(--text-dim);
   margin-bottom: 2rem;
+}
+
+.other-lang {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  margin: -1rem 0 1.5rem;
+}
+
+.other-lang a {
+  color: var(--text-dim);
+}
+
+.other-lang a:hover {
+  color: var(--accent);
+  text-decoration: none;
 }
 
 .post-tags {

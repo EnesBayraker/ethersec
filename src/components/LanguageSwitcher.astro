@@ -1,0 +1,21 @@
+---
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const pathname = Astro.url.pathname;
+const isTr = pathname.startsWith('/tr');
+const target: Lang = lang === 'tr' ? 'en' : 'tr';
+const href = isTr
+  ? pathname.replace(/^\/tr/, '') || '/'
+  : pathname === '/'
+    ? '/tr/'
+    : '/tr' + pathname;
+const label = target.toUpperCase();
+const title = target === 'en' ? 'Read in English' : 'Türkçe oku';
+---
+
+<a class="lang-switch" href={href} title={title} aria-label={title}>{label}</a>

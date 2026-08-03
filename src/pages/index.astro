@@ -1,60 +1,10 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import Home from '../components/Home.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog'))
+const posts = (await getCollection('blog-en'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-const latest = posts.slice(0, 3);
-const rest = posts.slice(3);
 ---
 
-<BaseLayout title="ethersec">
-  <section class="hero container">
-    <p class="hello">// merhaba, ben</p>
-    <h1>Enes Bayraker</h1>
-    <p class="handle">@ethersec</p>
-    <p class="bio">
-      Cybersecurity learner documenting my journey through digital threats, security
-      concepts, and real world cases. Bug bounty, CTF write-ups, vulnerability research
-      and everything in between.
-    </p>
-  </section>
-
-  <div class="container">
-    <h2 class="section-title">son yazılar</h2>
-    <ul class="post-list">
-      {
-        latest.map((post) => (
-          <li class="post-item">
-            <time class="post-date" datetime={post.data.pubDate.toISOString()}>
-              {post.data.pubDate.toLocaleDateString('tr-TR', { year: 'numeric', month: 'short', day: 'numeric' })}
-            </time>
-            <a class="post-link" href={`/blog/${post.id}/`}>{post.data.title}</a>
-          </li>
-        ))
-      }
-    </ul>
-
-    {rest.length > 0 && (
-      <>
-        <h2 class="section-title">arşiv</h2>
-        <ul class="post-list">
-          {
-            rest.map((post) => (
-              <li class="post-item">
-                <time class="post-date" datetime={post.data.pubDate.toISOString()}>
-                  {post.data.pubDate.toLocaleDateString('tr-TR', { year: 'numeric', month: 'short', day: 'numeric' })}
-                </time>
-                <a class="post-link" href={`/blog/${post.id}/`}>{post.data.title}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </>
-    )}
-
-    <p><a href="/blog">tüm yazılar →</a></p>
-  </div>
-</BaseLayout>
+<Home lang="en" posts={posts} />
