@@ -14,9 +14,13 @@ Siber güvenlik ve yazılım dünyasının en sevdiği şey bence merak. Merakl�
 
 Geçtiğimiz günlerde biraz 80'ler nostaljisine sardım ve o zamanların korku filmlerini izlemeye başladım. Tabi günümüz streaming platformlarında öyle aradığın şeyi bulmak hiç kolay değil. Ben de ülkemiz dışında servis veren streaming platformlarını incelerken biraz arada kıyıda kalmış obscure bir site keşfettim. Sitede garip ve niş diyebileceğimiz bilimkurgu, korku eserleri vardı. Ben de merak edip bir izleyeyim dedim, nasıl olsa Amerika'da hizmet verse de UI gelmişti. Sonrasında bu tarz şeyleri deneyenlerin çok da iyi bildiği o yazıyla karşılaştım:
 
+![Bu içerik bulunduğunuz konumda kullanılamıyor](/images/streaming-title-not-available.png)
+
 > This title is not available in your location.
 
 Ben de merak edip Burp'ü açtım. Burp'ün tarayıcısından siteyi açtım ve "ne var ne yok, var mı bir location kontrolü ibaresi" derken tabi ki gözüme bir şey çarptı.
+
+![Burp'te geolocation host](/images/streaming-burp-host.png)
 
 ## Adım 1: Yanıltıcı Çözüm ve İlk Deneme
 
@@ -46,6 +50,8 @@ X-Forwarded-For: 104.16.132.229
 
 Bu kuralı aktif edip tekrar denediğimde HTTP History'de video oynatıcısının asıl yayın listesini çektiği `GET /.../hls/master.m3u8` isteği sunucudan HTTP 200 OK koduyla dönmüştü. Sistem sahte Amerika IP'sini yutmuş olmasına rağmen ekranda hala `No compatible source was found` hatası alıyordum.
 
+![No compatible source was found hatası](/images/streaming-no-source.png)
+
 ## Adım 3: Troubleshooting
 
 Sunucu beni engellemiyorsa kim engelliyordu? Console sekmesinde böyle ilginç bir detayla karşılaştım:
@@ -63,6 +69,8 @@ Reklam oynatıcı çökünce, zincirleme bir reaksiyonla asıl video da "oynatac
 ## Adım 4: Son
 
 Bu client taraflı engeli aşmak için Burp'ün sorunlu tarayıcısını kapattım. Normal tarayıcıma geçiş yaptım. Aslında proxy ayarlarıyla uğraşıp trafiği tekrar Burp üzerinden geçirebilirdim ama madem çözüm sadece basit bir HTTP başlığı eklemekti, Burp'e bile gerek kalmadığını fark ettim. Tarayıcıma **ModHeader** eklentisini kurdum. `X-Forwarded-For: 104.16.132.229` kuralını eklentiye girip sayfayı yenilediğimde reklam sorunsuzca oynadı ve ardından film başladı!
+
+![ModHeader ile film başladı](/images/streaming-modheader.png)
 
 Evet, film gecesi ayağına küçük bir hack denemesi yapmış oldum. Benim için çok keyifli bir tecrübeydi. Asıl olay aşırı basit olan "X-Forwarded" trick'i olmasına rağmen bütün opsiyonları denemek ve gerçekten karşılaştığım bir problemi çözmek çok ayrı bir his.
 

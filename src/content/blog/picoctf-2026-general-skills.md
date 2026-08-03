@@ -10,11 +10,23 @@ Merhabalar! picoCTF'i bu yıl yakalayabildim. Bu yazıda "General Skills" katego
 
 ## Bytemancy 0
 
-İlk sorumuz basit, netcat ile verilen serveri dinlediğimizde bize verilen bu Python code'unu çalıştırıyor. Server bizden ASCII Decimal'de `101` değerine karşılık gelen karakteri 3 defa göndermemizi istiyor. Input kısmında da zaten `\x65` diyor — hexadecimalde de 65 karakterini istiyor aslında. Karakterimiz `e` harfi. Direkt flag elimizde.
+![Bytemancy 0](/images/bytemancy0-question.png)
+
+İlk sorumuz basit, netcat ile verilen serveri dinlediğimizde bize verilen bu Python code'unu çalıştırıyor.
+
+![Bytemancy 0 source code](/images/bytemancy0-source.png)
+
+Server bizden ASCII Decimal'de `101` değerine karşılık gelen karakteri 3 defa göndermemizi istiyor. Input kısmında da zaten `\x65` diyor — hexadecimalde de 65 karakterini istiyor aslında. Karakterimiz `e` harfi. Direkt flag elimizde.
+
+![Bytemancy 0 flag](/images/bytemancy0-flag.png)
 
 ## Bytemancy 1
 
-Gelelim bytemancy1'e. Bu sefer kodu incelediğimizde bizden **1751 kez** `e` karakterini istiyor. 1751 kez yazmak absürt olacağı için basit Python koduyla yollamaya çalıştım:
+Gelelim bytemancy1'e. Bu sefer kodu incelediğimizde bizden **1751 kez** `e` karakterini istiyor.
+
+![Bytemancy 1 source code](/images/bytemancy1-source.png)
+
+1751 kez yazmak absürt olacağı için basit Python koduyla yollamaya çalıştım:
 
 ```bash
 python3 -c "print('e' * 1751)"
@@ -22,9 +34,15 @@ python3 -c "print('e' * 1751)"
 
 ancak bu yazdığımı netcat cevap olarak algılıyor, hani benim 1751 tane e'm diyor. Ben de akıllılık edip Python ile nc'yi pipe'ladım ve dışarıdan yolladım isteğimi — ve flag elimizde.
 
+![Bytemancy 1 flag](/images/bytemancy1-flag.png)
+
 ## Bytemancy 2
 
-Şimdi gelelim bytemancy2'ye. Burada işler biraz ilginçleşiyor. Koda bakalım. Benden istenilen `0xFF` karakteri (Decimal 255), standart ASCII tablosunda non-printable bir karakter. Klavyede buna karşılık gelen bir tuş yok. Verilen ipucunda pwntools'a bir gönderme vardı. Direkt sunucuya raw bytes gönderebilmek için şöyle bir Python kodu yazdım:
+Şimdi gelelim bytemancy2'ye. Burada işler biraz ilginçleşiyor. Koda bakalım.
+
+![Bytemancy 2 source code](/images/bytemancy2-source.png)
+
+Benden istenilen `0xFF` karakteri (Decimal 255), standart ASCII tablosunda non-printable bir karakter. Klavyede buna karşılık gelen bir tuş yok. Verilen ipucunda pwntools'a bir gönderme vardı. Direkt sunucuya raw bytes gönderebilmek için şöyle bir Python kodu yazdım:
 
 ```python
 from pwn import *
@@ -43,9 +61,15 @@ print(r.recvall().decode())
 
 Bu kod sayesinde sunucuya otomatik bağlanıyorum. O ok işareti gelene kadar bekliyorum. Sonrasında 3 tane `0xff` byte'ını yolluyorum. Flag bizde.
 
+![Bytemancy 2 flag](/images/bytemancy2-flag.png)
+
 ## Bytemancy 3
 
-Şimdi anlatacağım bytemancy3 ise biraz bölüm sonu canavarı idi. Bize verilen `spellbook` isimli çalıştırılabilir dosyanın kaynak kodunu incelediğimizde, önceki sorulardan farklı bir mekanizma görüyoruz. Sunucu bize statik bir byte sormuyor; içindeki 4 farklı C fonksiyonundan (`ember_sigil`, `glyph_conflux` vb.) rastgele birini seçip, hafıza adreslerini 4-byte *little-endian* formatında istiyor.
+Şimdi anlatacağım bytemancy3 ise biraz bölüm sonu canavarı idi.
+
+![Bytemancy 3 soru](/images/bytemancy3-question.png)
+
+Bize verilen `spellbook` isimli çalıştırılabilir dosyanın kaynak kodunu incelediğimizde, önceki sorulardan farklı bir mekanizma görüyoruz. Sunucu bize statik bir byte sormuyor; içindeki 4 farklı C fonksiyonundan (`ember_sigil`, `glyph_conflux` vb.) rastgele birini seçip, hafıza adreslerini 4-byte *little-endian* formatında istiyor.
 
 ```c
 // ... (önceki kısımlar)
@@ -98,9 +122,13 @@ print(r.recvall().decode())
 
 Spellbook'u pwntools'a verdik. Sunucuya bağlandık. 3 tur boyunca fonksiyonun adresini ELF sembol tablosundan bul, adresi 4 byte Little-Endian raw byte'a çevir. Sonrasında bu Python kodunu çalıştırdığımızda flag elimizde.
 
+![Bytemancy 3 flag](/images/bytemancy3-flag.png)
+
 ## Failure Failure
 
 Bu soru bize gerçek dünyada çok sık yapılan bir High Availability yapılandırma hatasını gösteriyor. Siteye ilk girdiğimizde bizi "No flag in this service" yazısı karşılıyor. Kaynak kodunu incelediğimizde çok kritik bir detay var: Sistemde dakikada **300 Rate Limit** sınırı var ama bu sınır kullanıcı bazlı değil, global olarak ayarlanmış. Üstelik bu sınır aşılınca sistem standart 429 kodunu dönmek yerine **503 Service Unavailable** hatası veriyor.
+
+![Failure Failure](/images/failure-failure.png)
 
 ```python
 load_dotenv()
@@ -149,6 +177,8 @@ Geldik bence en eğlenceli soruya. Sistemde `ctf-player` olarak varız. Bulundu�
 ```
 (ALL) NOPASSWD: /bin/nano /etc/sudoers
 ```
+
+![ABSOLUTE NANO — sudoers](/images/absolute-nano.png)
 
 Yani sistem diyor ki: sen nano editörünü kullanarak `/etc/sudoers` dosyasını parola girmeden root olarak düzenleyebilirsin. *(Bu arada küçük bir itiraf: Dosyayı ilk açtığımda yanlışlıkla içini bozup sistemi kilitledim ve sunucuyu sıfırlamak zorunda kaldım :D)*
 
