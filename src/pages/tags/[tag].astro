@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '../../utils/formatDate';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const tags = new Set<string>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      tags.add(tag);
+    }
+  }
+  return [...tags].map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft && post.data.tags.includes(tag!))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title={`#${tag}`} description={`Etiket: ${tag}`}>
+  <div class="container">
+    <p class="back-link"><a href="/tags">← tüm etiketler</a></p>
+    <h2 class="section-title">#{tag}</h2>
+    <ul class="post-list">
+      {
+        posts.map((post) => (
+          <li class="post-item">
+            <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+              {formatDate(post.data.pubDate)}
+            </time>
+            <a class="post-link" href={`/blog/${post.id}/`}>{post.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>

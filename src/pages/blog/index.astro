@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="Yazılar" description="Tüm yazılar — write-up'lar, analizler ve yolculuk notları.">
+  <div class="container">
+    <h2 class="section-title">tüm yazılar</h2>
+    <ul class="post-list">
+      {
+        posts.map((post) => (
+          <li class="post-item">
+            <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+              {post.data.pubDate.toLocaleDateString('tr-TR', { year: 'numeric', month: 'short', day: 'numeric' })}
+            </time>
+            <a class="post-link" href={`/blog/${post.id}/`}>{post.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>
