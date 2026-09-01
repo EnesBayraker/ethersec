@@ -60,6 +60,13 @@ const nav = [
     <meta name="theme-color" content="#0a0a0b" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
+    {
+      pathname.startsWith('/tr/') || pathname === '/tr/' ? (
+        <script is:inline src="/redirect-pagesdev.js" defer></script>
+      ) : (
+        <script is:inline src="/redirect-pagesdev.js"></script>
+      )
+    }
     <title>{title} · {siteTitle}</title>
   </head>
   <body>
