@@ -15,6 +15,10 @@ const dict = getDict(lang);
 const siteTitle = 'ethersec';
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image ?? '/og-default.png', Astro.site);
+const shortDescription = description ?? dict.meta.defaultDescription;
+const longDescription = shortDescription.length >= 100
+  ? shortDescription
+  : 'CTF write-ups, vulnerability research and web security notes. Follow along as I document what I break, how I break it, and what I learn on my bug bounty journey.';
 
 const pathname = Astro.url.pathname;
 const isTr = pathname.startsWith('/tr');
@@ -37,9 +41,9 @@ const nav = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description ?? dict.meta.defaultDescription} />
+    <meta name="description" content={longDescription} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description ?? dict.meta.defaultDescription} />
+    <meta property="og:description" content={longDescription} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={socialImage} />
@@ -48,7 +52,7 @@ const nav = [
     <meta property="og:image:alt" content={title} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description ?? dict.meta.defaultDescription} />
+    <meta name="twitter:description" content={longDescription} />
     <meta name="twitter:image" content={socialImage} />
     <link rel="alternate" hreflang="en" href={enURL} />
     <link rel="alternate" hreflang="tr" href={trURL} />
