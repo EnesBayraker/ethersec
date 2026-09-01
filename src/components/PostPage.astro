@@ -20,7 +20,7 @@ const tagBase = lang === 'tr' ? '/tr/tags' : '/tags';
 const otherBase = lang === 'tr' ? '/blog' : '/tr/blog';
 ---
 
-<BaseLayout lang={lang} title={title} description={description}>
+<BaseLayout lang={lang} title={title} description={description} image={post.id === 'intigriti-0826-bad-reception' ? '/og-badreception.png' : undefined}>
   <div class="container">
     <p class="back-link"><a href={base}>{dict.blog.back}</a></p>
     <article>
