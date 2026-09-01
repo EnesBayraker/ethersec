@@ -3,7 +3,7 @@ title: 'Bad Reception: Chaining a Blind XSS, a JSONP Gadget and a Bot to Solve I
 description: 'Full write-up of the Intigriti August 2026 challenge: stored blind XSS in a report form, a same-origin JSONP endpoint defeating CSP, and exfiltrating a hidden channel from a moderator bot.'
 pubDate: 2026-09-01
 tags: ['ctf', 'xss', 'intigriti', 'csp-bypass', 'blind-xss', 'writeup']
-cover: '/images/badreception-ch11.png'
+cover: '/covers/badreception.jpg'
 ---
 
 The challenge was called **Bad Reception** and the premise fit in one sentence: a wood-panelled 1970s television, ten channels, all of them static snow, and the goal printed right on the screen. "Make the TV work to capture the flag." Here's how I solved it.

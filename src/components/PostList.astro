@@ -18,10 +18,17 @@ const { lang, posts, base } = Astro.props;
   {
     posts.map((post) => (
       <li class="post-item">
-        <time class="post-date" datetime={post.data.pubDate.toISOString()}>
-          {formatDate(post.data.pubDate, lang)}
-        </time>
-        <a class="post-link" href={`${base}/${post.id}/`}>{post.data.title}</a>
+        {post.data.cover && (
+          <a class="post-thumb" href={`${base}/${post.id}/`} tabindex="-1" aria-hidden="true">
+            <img src={post.data.cover} alt="" loading="lazy" />
+          </a>
+        )}
+        <div class="post-item-body">
+          <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate, lang)}
+          </time>
+          <a class="post-link" href={`${base}/${post.id}/`}>{post.data.title}</a>
+        </div>
       </li>
     ))
   }

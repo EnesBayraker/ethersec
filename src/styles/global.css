@@ -169,10 +169,30 @@ a:hover {
 
 .post-item {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 1rem;
   padding: 0.65rem 0;
   border-bottom: 1px solid var(--border);
+}
+
+.post-thumb {
+  flex: 0 0 96px;
+}
+
+.post-thumb img {
+  display: block;
+  width: 96px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.post-item-body {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  min-width: 0;
 }
 
 .post-date {
@@ -180,7 +200,6 @@ a:hover {
   font-size: 0.8rem;
   color: var(--text-dim);
   white-space: nowrap;
-  min-width: 5.5rem;
 }
 
 .post-link {

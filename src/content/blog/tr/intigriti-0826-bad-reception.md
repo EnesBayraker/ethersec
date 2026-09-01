@@ -3,7 +3,7 @@ title: 'Bad Reception: Kör XSS, JSONP ve bir Bot ile Intigriti 0826 Çözümü'
 description: 'Intigriti Ağustos 2026 challenge çözümü: report formunda stored blind XSS, CSPyi aşan same-origin JSONP endpointi ve moderatör botundan sızdırılan gizli kanal.'
 pubDate: 2026-09-01
 tags: ['ctf', 'xss', 'intigriti', 'csp-bypass', 'blind-xss', 'writeup']
-cover: '/images/badreception-ch11.png'
+cover: '/covers/badreception.jpg'
 ---
 
 Intigriti'nin Ağustos ayı CTF challenge'ının adı **Bad Reception** idi. Karşımda eski model bir televizyon vardı: on kanal tuşu, hepsinde aynı parazit görüntüsü. Amaç tek cümle: "Make the TV work to capture the flag." Televizyonu çalıştır, flag'i yakala. Bu yazıda nasıl çözdüğümü anlatacağım.
