@@ -6,7 +6,7 @@ tags: ['ctf', 'xss', 'intigriti', 'csp-bypass', 'blind-xss', 'writeup']
 cover: '/images/badreception-ch11.png'
 ---
 
-The challenge was called **Bad Reception** and the premise fit in one sentence: a wood-panelled 1970s television, ten channels, all of them static snow. Somewhere past the dial there was an eleventh channel I wasn't allowed to tune to, and the flag was hidden inside that channel's stream. The two rules that mattered: solve it with a vulnerability on the challenge page, and publish the write-up only after the challenge ended. It ended last night, so here we are.
+The challenge was called **Bad Reception** and the premise fit in one sentence: a wood-panelled 1970s television, ten channels, all of them static snow, and the goal printed right on the screen. "Make the TV work to capture the flag." Here's how I solved it.
 
 ## The chain in one paragraph
 
