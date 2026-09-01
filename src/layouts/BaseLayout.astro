@@ -14,7 +14,7 @@ const { title, description, lang = 'en', image } = Astro.props;
 const dict = getDict(lang);
 const siteTitle = 'ethersec';
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const socialImage = new URL(image ?? '/og-default.png', Astro.site);
+const socialImage = new URL(image ?? '/og-social-2026.png', Astro.site);
 const shortDescription = description ?? dict.meta.defaultDescription;
 const longDescription = shortDescription.length >= 100
   ? shortDescription
