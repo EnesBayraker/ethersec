@@ -413,3 +413,10 @@ article h1 {
     min-width: 0;
   }
 }
+
+/* oneko pet: keep it out of the way on small screens */
+@media (max-width: 640px) {
+  #oneko {
+    display: none !important;
+  }
+}
